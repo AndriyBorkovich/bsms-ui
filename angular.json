@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "bsms-ui:build:production"
+              "buildTarget": "bsms-ui:build:production"
             },
             "development": {
-              "browserTarget": "bsms-ui:build:development"
+              "buildTarget": "bsms-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "bsms-ui:build"
+            "buildTarget": "bsms-ui:build"
           }
         },
         "test": {
@@ -100,5 +100,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "0a915988-e1c5-4b66-8e42-00fa640c5837"
   }
 }
