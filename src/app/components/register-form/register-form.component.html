@@ -1,0 +1,33 @@
+<h1 class="mt-5 text-center font-bold text-2xl">Register</h1>
+<form class="max-w-sm mx-auto" [formGroup]="registerForm" novalidate (ngSubmit)="registerUser(registerForm.value)">
+  <div class="mb-5">
+    <label for="username" class="form-label">Username*</label>
+    <input type="text" id="username" formControlName="username" class="form-input" placeholder="Name of user" required>
+    <p *ngIf="validateControl('username') && hasError('username', 'required')"
+       class="error-msg">Username is required!</p>
+  </div>
+  <div class="mb-5">
+    <label for="email" class="form-label">Email*</label>
+    <input type="email" id="email" formControlName="email" class="form-input" placeholder="name@domain.com" required>
+    <p *ngIf="validateControl('email') && hasError('email', 'email')"
+       class="error-msg">Invalid email!</p>
+    <p *ngIf="validateControl('email') && hasError('email', 'required')"
+       class="error-msg">Email is required!</p>
+  </div>
+  <div class="mb-5">
+    <label for="password" class="form-label">Password*</label>
+    <input type="password" formControlName="password" id="password" class="form-input" required>
+    <p *ngIf="validateControl('password') && hasError('password', 'required')"
+       class="error-msg">Password is required!</p>
+  </div>
+  <div class="mb-5">
+    <label for="role" class="form-label">Role*</label>
+    <select id="role" formControlName="role" class="form-select" required>
+      <option *ngFor="let role of roles" [ngValue]="role">{{ role }}</option>
+    </select>
+  </div>
+  <div class="flex">
+    <button n-submit type="submit" class="submit-btn mr-3" [disabled]="!registerForm.valid">Submit</button>
+    <button n-submit class="submit-btn" (click)="onCancel()">Cancel</button>
+  </div>
+</form>
