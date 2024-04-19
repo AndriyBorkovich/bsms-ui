@@ -6,6 +6,7 @@ import {ToastrService} from "ngx-toastr";
 import {AuthenticateResponse, LoginRequest, RegistrationRequest} from "../../models/account.dtos";
 import {HttpErrorResponse} from "@angular/common/http";
 import {NgIf} from "@angular/common";
+import { DisableButtonOnSubmitDirective } from 'src/app/directives/n-submit.directive';
 
 @Component({
   selector: 'app-login-form',
@@ -13,7 +14,8 @@ import {NgIf} from "@angular/common";
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    DisableButtonOnSubmitDirective
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss'
@@ -67,9 +69,5 @@ export class LoginFormComponent {
           });
         }
       })
-  }
-
-  onSubmit() {
-
   }
 }

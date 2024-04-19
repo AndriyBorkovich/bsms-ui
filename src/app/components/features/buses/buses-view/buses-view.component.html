@@ -1,0 +1,62 @@
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full h-2/3 text-sm text-left rtl:text-right text-blue-100 dark:text-blue-100">
+        <thead class="text-xs text-white uppercase bg-blue-600 dark:text-white">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Bus №
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Brand
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Capacity
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Driver
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Company
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Rating
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of buses; track $index)
+            {
+            <tr class="bg-blue-500 border-b border-blue-400 hover:bg-gray-50">
+                <th scope="row" class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
+                    {{item.number}}
+                </th>
+                <td class="px-6 py-4">
+                    {{item.brand}}
+                </td>
+                <td class="px-6 py-4">
+                    {{item.capacity}}
+                </td>
+                <td class="px-6 py-4">
+                    {{item.driverName}}
+                </td>
+                <td class="px-6 py-4">
+                    {{item.companyName}}
+                </td>
+                <td class="px-6 py-4">
+                    {{item.rating}}
+                </td>
+                <td class="px-6 py-4">
+                    <a href="#" class="font-medium text-white hover:underline">Edit</a>
+                    <a href="#" class="font-medium text-white hover:underline">Delete</a>
+                </td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+<div class="flex justify-between mt-5">
+    <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create new bus</button>
+</div>

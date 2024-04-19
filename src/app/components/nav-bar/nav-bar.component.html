@@ -1,13 +1,14 @@
 <nav class="bg-blue-600 border-gray-200 dark:bg-gray-900">
   <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
-    <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">Bus station management system</span>
+    <img class="" src="../../../assets/bsms-logo.png" alt="logo" height="64" width="64"/>
+    <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">BSMS</span>
     <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
       <button type="button"
-              class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+              class="flex text-sm rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
               id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
               data-dropdown-placement="bottom">
-        <img class="w-10 h-10 rounded-full" src="/src/assets/user-avatar.png" alt="user"
-             height="2048" width="2048">
+        <img class=" rounded-full" src="../../../assets/user-avatar.png" alt="user"
+             height="50" width="50">
       </button>
       <!-- Dropdown menu -->
       <div *ngIf="currentUser != null"
@@ -29,27 +30,30 @@
   </div>
 </nav>
 
-<nav class="bg-blue-300 dark:bg-gray-700">
+<nav class="bg-blue-500 dark:bg-gray-700">
   <div class="max-w-screen-xl px-4 py-3 mx-auto">
     <div class="flex items-center">
       <ul class="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
         <li>
-          <a href="#" class="text-gray-900 dark:text-white hover:underline" routerLink="/" aria-current="page">Home</a>
+          <a href="#" class="text-white dark:text-white hover:underline" routerLink="/" aria-current="page">Home</a>
         </li>
         <li>
-          <a href="#" class="text-gray-900 dark:text-white hover:underline">Trips</a>
+          <a href="#" class="text-white dark:text-white hover:underline">Trips</a>
         </li>
         <li>
-          <a href="#" class="text-gray-900 dark:text-white hover:underline">Buses</a>
+          <a href="#" class="text-white dark:text-white hover:underline" routerLink="/buses-view">Buses</a>
         </li>
         <li>
-          <a href="#" class="text-gray-900 dark:text-white hover:underline">Passengers</a>
+          <a href="#" class="text-white dark:text-white hover:underline">Passengers</a>
         </li>
         <li>
-          <a href="#" class="text-gray-900 dark:text-white hover:underline">Drivers</a>
+          <a href="#" class="text-white dark:text-white hover:underline">Drivers</a>
         </li>
         <li>
-          <a href="#" class="text-gray-900 dark:text-white hover:underline">Companies</a>
+          <a href="#" class="text-white dark:text-white hover:underline">Companies</a>
+        </li>
+        <li>
+          <a href="#" class="text-white dark:text-white hover:underline">Statistics</a>
         </li>
       </ul>
     </div>

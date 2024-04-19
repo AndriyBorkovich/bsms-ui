@@ -52,25 +52,11 @@ export class RegisterFormComponent implements OnInit {
 
   registerUser = (registerFormValue: any) => {
     const formValues = {...registerFormValue};
-    let role: Role;
-    switch (formValues.role) {
-      case 'Admin':
-        role = Role.Admin;
-        break;
-      case 'Passenger':
-        role = Role.Passenger;
-        break;
-      case 'Driver':
-        role = Role.Driver;
-        break;
-      default:
-        break;
-    }
     const user: RegistrationRequest = {
       username: formValues.username,
       email: formValues.email,
       password: formValues.password,
-      role: role
+      role: this.parseRoleText(formValues.role)
     };
 
     this.accountService.register(user)
@@ -90,5 +76,24 @@ export class RegisterFormComponent implements OnInit {
           });
         }
       })
+  }
+
+  private parseRoleText(roleText: string) {
+    let role: Role;
+    switch (roleText) {
+      case 'Admin':
+        role = Role.Admin;
+        break;
+      case 'Passenger':
+        role = Role.Passenger;
+        break;
+      case 'Driver':
+        role = Role.Driver;
+        break;
+      default:
+        break;
+    }
+
+    return role;
   }
 }

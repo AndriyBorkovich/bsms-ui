@@ -1,19 +1,22 @@
-<h1 ngForm class="mt-5 text-center font-bold text-2xl">Login</h1>
-<form ngForm class="max-w-sm mx-auto" novalidate [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
-  <div class="mb-5">
-    <label for="username" class="form-label">Username*</label>
-    <input type="text" id="username" formControlName="username" name="username" class="form-input" placeholder="andrii25" required>
-    <p *ngIf="validateControl('username') && hasError('username', 'required')"
-       class="error-msg">Username required!</p>
-  </div>
-  <div class="mb-5">
-    <label for="password" class="form-label">Password*</label>
-    <input type="password" name="userPassword" formControlName="password" id="password" class="form-input" required >
-    <p *ngIf="validateControl('password') && hasError('password', 'required')"
-       class="error-msg">Password is required!</p>
-  </div>
-  <div class="flex">
-    <button type="submit" class="submit-btn mr-3">Submit</button>
-    <button class="submit-btn" (click)="onCancel()">Cancel</button>
-  </div>
-</form>
+<div class="mt-10">
+  <p ngForm class="text-white text-center font-extrabold text-2xl">Login</p>
+  <form ngForm class="max-w-sm mx-auto" novalidate [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
+    <div class="mb-5">
+      <label for="username" class="form-label">Username*</label>
+      <input type="text" id="username" formControlName="username" name="username" class="form-input"
+        placeholder="andrii25" required>
+      <p *ngIf="validateControl('username') && hasError('username', 'required')" class="error-msg">Username required!
+      </p>
+    </div>
+    <div class="mb-5">
+      <label for="password" class="form-label">Password*</label>
+      <input type="password" name="userPassword" formControlName="password" id="password" class="form-input" required>
+      <p *ngIf="validateControl('password') && hasError('password', 'required')" class="error-msg">Password is required!
+      </p>
+    </div>
+    <div class="flex">
+      <button n-submit type="submit" [disabled]="!loginForm.valid" class="submit-btn mr-3">Submit</button>
+      <button n-submit class="submit-btn" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</div>
