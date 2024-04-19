@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   template: `
     <div
-      class="min-h-screen flex flex-grow items-center justify-center bg-gray-50"
+      class="mt-20 flex flex-grow items-center justify-center bg-gray-50"
     >
       <div class="rounded-lg bg-white p-8 text-center shadow-xl">
         <h1 class="mb-4 text-4xl font-bold">404</h1>

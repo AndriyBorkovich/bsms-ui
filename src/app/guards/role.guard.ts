@@ -3,7 +3,6 @@ import { ActivatedRouteSnapshot } from '@angular/router';
 import { CanActivate } from '@angular/router';
 import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
-import { jwtDecode } from 'jwt-decode';
 
 @Injectable({ providedIn: 'root' })
 export class RoleGuard implements CanActivate {
@@ -20,12 +19,11 @@ export class RoleGuard implements CanActivate {
 
     // this will be passed from the route config on the data property
     const expectedRoles: string[] = route.data['expectedRoles'];
-    const curentUser = this.accountService.getCurrentUser();
-    const tokenPayload: any = jwtDecode(curentUser.token);
+    const curentUserRole = this.accountService.getCurrentRole();
 
     let hasExpectedRole = false;
     expectedRoles.forEach((expectedRole) => {
-      if (tokenPayload.Role == expectedRole) {
+      if (curentUserRole == expectedRole) {
         hasExpectedRole = true;
         console.log('Can pass');
       }
@@ -34,9 +32,7 @@ export class RoleGuard implements CanActivate {
     if (!hasExpectedRole) {
       this.router
         .navigateByUrl('/')
-        .then(() =>
-          console.log('User does not have required role')
-        );
+        .then(() => console.log('User does not have required role'));
       return false;
     }
 

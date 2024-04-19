@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {Router, RouterLink} from "@angular/router";
-import {NgIf, NgOptimizedImage} from "@angular/common";
-import {AccountService} from "../../services/account.service";
-import {User} from "../../models/user";
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { NgIf, NgOptimizedImage } from '@angular/common';
+import { AccountService } from '../../services/account.service';
+import { User } from '../../models/user';
+import { HasAnyAppRoleComponentDirective } from 'src/app/directives/has-any-role.directive';
 
 @Component({
   selector: 'app-nav-bar',
@@ -10,15 +11,15 @@ import {User} from "../../models/user";
   imports: [
     RouterLink,
     NgOptimizedImage,
-    NgIf
+    NgIf,
+    HasAnyAppRoleComponentDirective,
   ],
   templateUrl: './nav-bar.component.html',
-  styles: ``
+  styles: ``,
 })
 export class NavBarComponent implements OnInit {
   currentUser: User;
-  constructor(private router: Router,
-              private accountService: AccountService) {}
+  constructor(private router: Router, private accountService: AccountService) {}
 
   ngOnInit() {
     this.currentUser = this.accountService.getCurrentUser();
@@ -26,7 +27,7 @@ export class NavBarComponent implements OnInit {
 
   onLogOutClick() {
     this.accountService.logout();
-    this.router.navigateByUrl('/').then(() => console.log("Logged out"));
+    this.router.navigateByUrl('/').then(() => console.log('Logged out'));
     window.location.reload();
   }
 }

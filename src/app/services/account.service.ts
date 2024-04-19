@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { User } from '../models/user';
 import { environment } from '../../environments/environment';
 import { LoginRequest, RegistrationRequest } from '../models/account.dtos';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -14,15 +15,13 @@ export class AccountService {
 
   private currentUserSource = new BehaviorSubject<User | null>(null);
 
-  // $ sign claims this is observable
-  currentUser$ = this.currentUserSource.asObservable();
+  currentUser$ : Observable<User> = this.currentUserSource.asObservable();
 
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
 
   logIn(model: LoginRequest) {
     return this.http.post<User>(`${this.baseUrl}auth/Login`, model).pipe(
-      map((response: User) => {
-        const user = response;
+      map((user: User) => {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSource.next(user);
@@ -35,7 +34,7 @@ export class AccountService {
 
   isLoggedIn(): boolean {
     let currentUser: User | null = this.getCurrentUser();
-    this.currentUserSource.next(currentUser);
+
     return (
       currentUser !== null && !this.jwtHelper.isTokenExpired(currentUser.token)
     );
@@ -61,7 +60,20 @@ export class AccountService {
 
   getCurrentUser() {
     let user: User | null = JSON.parse(localStorage.getItem('user'));
-    this.currentUserSource.next(user);
     return user;
+  }
+
+  getCurrentRole(): string | null {
+    const curentUser = this.getCurrentUser();
+    if(curentUser == null) {
+      return null;
+    }
+
+    const tokenPayload: any = jwtDecode(curentUser.token);
+    if(tokenPayload == null) {
+      return null;
+    }
+    
+    return tokenPayload.Role;
   }
 }

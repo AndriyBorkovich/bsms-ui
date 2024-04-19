@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   imports: [NgIf],
   template: `
     <div
-      class="flex h-[calc(100vh-80px)] items-center justify-center p-5 w-full bg-white"
+      class="flex mt-20 items-center justify-center p-5 w-full"
     >
       <div class="text-center">
         <div class="inline-flex rounded-full bg-red-100 p-4">
