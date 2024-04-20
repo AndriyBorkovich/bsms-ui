@@ -11,7 +11,7 @@ import { jwtDecode } from 'jwt-decode';
   providedIn: 'root',
 })
 export class AccountService {
-  baseUrl: string = environment.apiUrl;
+  baseUrl: string = `${environment.apiUrl}auth`;
 
   private currentUserSource = new BehaviorSubject<User | null>(null);
 
@@ -20,7 +20,7 @@ export class AccountService {
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
 
   logIn(model: LoginRequest) {
-    return this.http.post<User>(`${this.baseUrl}auth/Login`, model).pipe(
+    return this.http.post<User>(`${this.baseUrl}/Login`, model).pipe(
       map((user: User) => {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
@@ -41,7 +41,7 @@ export class AccountService {
   }
 
   register(model: RegistrationRequest) {
-    return this.http.post<User>(`${this.baseUrl}auth/Register`, model).pipe(
+    return this.http.post<User>(`${this.baseUrl}/Register`, model).pipe(
       map((user) => {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));

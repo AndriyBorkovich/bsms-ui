@@ -15,6 +15,7 @@ import { Pagination } from 'src/app/models/pagination';
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     NgFor,
     HasAnyAppRoleDirective,
     MatIconModule,

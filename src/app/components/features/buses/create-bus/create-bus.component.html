@@ -1,1 +1,121 @@
-<p>create-bus works!</p>
+<div class="mt-5">
+    <p class="text-white text-center font-extrabold text-2xl">Create new bus</p>
+</div>
+<div class="flex items-center justify-center border-b border-gray-200 dark:border-gray-700">
+    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-styled-tab"
+        data-tabs-toggle="#default-styled-tab-content"
+        data-tabs-active-classes="text-blue-600 hover:text-blue-800 dark:text-purple-500 dark:hover:text-purple-500 border-blue-500 dark:border-purple-500"
+        data-tabs-inactive-classes="dark:border-transparent text-white hover:text-blue-300 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300"
+        role="tablist">
+        <li class="me-1" role="presentation">
+            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-styled-tab"
+                data-tabs-target="#styled-profile" type="button" role="tab" aria-controls="profile"
+                aria-selected="false">General information</button>
+        </li>
+        <li class="me-2" role="presentation">
+            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="dashboard-styled-tab"
+                data-tabs-target="#styled-dashboard" type="button" role="tab" aria-controls="dashboard"
+                aria-selected="false">Company and driver</button>
+        </li>
+        <li class="me-2" role="presentation">
+            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="settings-styled-tab"
+                data-tabs-target="#styled-settings" type="button" role="tab" aria-controls="settings"
+                aria-selected="false">Schedule setup</button>
+        </li>
+
+    </ul>
+</div>
+<div id="default-styled-tab-content">
+    <div class="hidden p-4 rounded-lg bg-blue-400 dark:bg-gray-800" id="styled-profile" role="tabpanel"
+        aria-labelledby="profile-tab">
+        <div class="flex flex-col items-center justify-center">
+            <div>
+                <label for="bus_brand" class="block mb-2 text-sm font-medium text-white dark:text-white">Bus
+                    brand</label>
+                <input type="text" [maxLength]="50" id="bus_brand"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Mercedes" required [value]="enteredBrand" />
+            </div>
+            <div class="mt-5">
+                <label for="bus_number" class="block mb-2 text-sm font-medium text-white dark:text-white">Bus
+                    number</label>
+                <input type="text" [maxLength]="20" id="bus_number"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="A99" required [value]="enteredBusNumber" />
+            </div>
+            <div class="mt-5">
+                <label for="number-input" class="block mb-2 text-sm font-medium text-white dark:text-white">Number of
+                    seats:</label>
+                <input type="number" max="40" id="number-input" aria-describedby="helper-text-explanation"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="90210" required [value]="enteredSeatsCount" />
+            </div>
+        </div>
+    </div>
+    <div class="hidden p-4 rounded-lg bg-blue-400 dark:bg-gray-800" id="styled-dashboard" role="tabpanel"
+        aria-labelledby="dashboard-tab">
+        <div *ngIf="companies.length > 0" class="flex flex-col items-center justify-center">
+            <span class="text-white text-center font-extrabold text-xl">Choose company:</span>
+            <mat-form-field>
+                <mat-label>Companies</mat-label>
+                <mat-select (selectionChange)="onCompanySelectionChange($event.value)">
+                    <mat-option>None</mat-option>
+                    @for (company of companies; track company) {
+                    <mat-option [value]="company.companyId">{{company.name}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <ng-container *ngIf="drivers.length > 0">
+                <span class="text-white text-center font-extrabold text-xl">Choose driver:</span>
+                <mat-form-field>
+                    <mat-label>Drivers</mat-label>
+                    <mat-select [(value)]="choosedDriverId">
+                        <mat-option>None</mat-option>
+                        @for (driver of drivers; track driver) {
+                        <mat-option [value]="driver.driverId">{{driver.name}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </ng-container>
+        </div>
+    </div>
+    <div class="hidden p-4 rounded-lg bg-blue-400 dark:bg-gray-800" id="styled-settings" role="tabpanel"
+        aria-labelledby="settings-tab">
+        <div class="flex flex-row flex-auto items-center justify-center space-x-4">
+            <div>
+                <label for="start-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Departure
+                    time:</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <input aria-label="24hr format" readonly [format]="24" [ngxTimepicker]="departureTime"
+                        class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    <ngx-material-timepicker #departureTime></ngx-material-timepicker>
+                </div>
+            </div>
+            <div>
+                <label for="end-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End
+                    time:</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <input aria-label="24hr format" readonly [format]="24" [ngxTimepicker]="arrivalTime"
+                        class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    <ngx-material-timepicker #arrivalTime></ngx-material-timepicker>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
