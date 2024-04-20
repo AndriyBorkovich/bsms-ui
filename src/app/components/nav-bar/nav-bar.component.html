@@ -39,19 +39,19 @@
         <li>
           <a href="#" class="text-white dark:text-white hover:underline" routerLink="/" aria-current="page">Home</a>
         </li>
-        <li *hasAnyRole="['Admin', 'Passenger']">
+        <li *hasAnyRole="['Admin', 'Passenger', 'Driver']">
           <a href="#" class="text-white dark:text-white hover:underline">Trips</a>
         </li>
-        <li *hasAnyRole="['Admin', 'Driver']">
-          <a href="#" class="text-white dark:text-white hover:underline" routerLink="/buses-view">Buses</a>
+        <li *hasAnyRole="['Admin', 'Driver', 'Passenger']">
+          <a href="#" class="text-white dark:text-white hover:underline" routerLink="/buses">Buses</a>
         </li>
-        <li *hasAnyRole="['Admin']">
+        <li *hasAnyRole="['Admin', 'Driver']">
           <a href="#" class="text-white dark:text-white hover:underline">Passengers</a>
         </li>
         <li *hasAnyRole="['Admin']">
           <a href="#" class="text-white dark:text-white hover:underline">Drivers</a>
         </li>
-        <li>
+        <li *hasAnyRole="['Admin', 'Driver']">
           <a href="#" class="text-white dark:text-white hover:underline">Companies</a>
         </li>
         <li *hasAnyRole="['Admin']">

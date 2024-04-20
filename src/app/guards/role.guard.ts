@@ -25,13 +25,12 @@ export class RoleGuard implements CanActivate {
     expectedRoles.forEach((expectedRole) => {
       if (curentUserRole == expectedRole) {
         hasExpectedRole = true;
-        console.log('Can pass');
       }
     });
 
     if (!hasExpectedRole) {
       this.router
-        .navigateByUrl('/')
+        .navigateByUrl('/no-access')
         .then(() => console.log('User does not have required role'));
       return false;
     }

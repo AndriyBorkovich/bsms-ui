@@ -3,7 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { NgIf, NgOptimizedImage } from '@angular/common';
 import { AccountService } from '../../services/account.service';
 import { User } from '../../models/user';
-import { HasAnyAppRoleComponentDirective } from 'src/app/directives/has-any-role.directive';
+import { HasAnyAppRoleDirective } from 'src/app/directives/has-any-role.directive';
 
 @Component({
   selector: 'app-nav-bar',
@@ -12,7 +12,7 @@ import { HasAnyAppRoleComponentDirective } from 'src/app/directives/has-any-role
     RouterLink,
     NgOptimizedImage,
     NgIf,
-    HasAnyAppRoleComponentDirective,
+    HasAnyAppRoleDirective,
   ],
   templateUrl: './nav-bar.component.html',
   styles: ``,

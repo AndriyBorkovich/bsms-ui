@@ -14,10 +14,10 @@ export const routes: Routes = [
   { path: 'register', component: RegisterFormComponent },
   { path: 'login', component: LoginFormComponent },
   {
-    path: 'buses-view',
+    path: 'buses',
     component: BusesViewComponent,
     canActivate: [RoleGuard],
-    data: { expectedRoles: ['Admin', 'Passenger'] },
+    data: { expectedRoles: ['Admin', 'Driver'] },
   },
   {
     path: 'create-bus',

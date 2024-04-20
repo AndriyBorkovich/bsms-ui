@@ -16,16 +16,15 @@ import { AccountService } from '../services/account.service';
   selector: '[hasAnyRole]',
   standalone: true
 })
-export class HasAnyAppRoleComponentDirective {
+export class HasAnyAppRoleDirective {
   private roles: string[] = [];
 
   constructor(
     private templateRef: TemplateRef<any>,
     private viewContainerRef: ViewContainerRef,
-    private accountService: AccountService // Inject your AccountService here
+    private accountService: AccountService
   ) {}
 
-  //!!! should be the same as name as selector
   @Input()
   set hasAnyRole(value: string | string[]) {
     this.roles = typeof value === 'string' ? [value] : value;
