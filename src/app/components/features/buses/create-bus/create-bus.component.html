@@ -34,21 +34,21 @@
                     brand</label>
                 <input type="text" [maxLength]="50" id="bus_brand"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Mercedes" required [value]="enteredBrand" />
+                    placeholder="Mercedes" required [(ngModel)]="enteredBrand" />
             </div>
             <div class="mt-5">
                 <label for="bus_number" class="block mb-2 text-sm font-medium text-white dark:text-white">Bus
                     number</label>
                 <input type="text" [maxLength]="20" id="bus_number"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="A99" required [value]="enteredBusNumber" />
+                    placeholder="A99" required [(ngModel)]="enteredBusNumber" />
             </div>
             <div class="mt-5">
                 <label for="number-input" class="block mb-2 text-sm font-medium text-white dark:text-white">Number of
                     seats:</label>
-                <input type="number" max="40" id="number-input" aria-describedby="helper-text-explanation"
+                <input type="number" max="30" min="5" id="number-input" aria-describedby="helper-text-explanation"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="90210" required [value]="enteredSeatsCount" />
+                    placeholder="90210" required [(ngModel)]="enteredSeatsCount" />
             </div>
         </div>
     </div>
@@ -58,7 +58,7 @@
             <span class="text-white text-center font-extrabold text-xl">Choose company:</span>
             <mat-form-field>
                 <mat-label>Companies</mat-label>
-                <mat-select (selectionChange)="onCompanySelectionChange($event.value)">
+                <mat-select (selectionChange)="onCompanySelectionChange($event.value)" required>
                     <mat-option>None</mat-option>
                     @for (company of companies; track company) {
                     <mat-option [value]="company.companyId">{{company.name}}</mat-option>
@@ -69,7 +69,7 @@
                 <span class="text-white text-center font-extrabold text-xl">Choose driver:</span>
                 <mat-form-field>
                     <mat-label>Drivers</mat-label>
-                    <mat-select [(value)]="choosedDriverId">
+                    <mat-select [(value)]="choosedDriverId" required>
                         <mat-option>None</mat-option>
                         @for (driver of drivers; track driver) {
                         <mat-option [value]="driver.driverId">{{driver.name}}</mat-option>
@@ -81,41 +81,28 @@
     </div>
     <div class="hidden p-4 rounded-lg bg-blue-400 dark:bg-gray-800" id="styled-settings" role="tabpanel"
         aria-labelledby="settings-tab">
-        <div class="flex flex-row flex-auto items-center justify-center space-x-4">
-            <div>
-                <label for="start-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Departure
-                    time:</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd"
-                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <input aria-label="24hr format" readonly [format]="24" [ngxTimepicker]="departureTime"
-                        class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    <ngx-material-timepicker #departureTime></ngx-material-timepicker>
-                </div>
-            </div>
-            <div>
-                <label for="end-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End
-                    time:</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd"
-                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <input aria-label="24hr format" readonly [format]="24" [ngxTimepicker]="arrivalTime"
-                        class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    <ngx-material-timepicker #arrivalTime></ngx-material-timepicker>
-                </div>
-            </div>
+        <div *ngIf="routes.length > 0" class="flex flex-col flex-auto items-center justify-center space-x-4">
+            <span class="text-white text-center font-extrabold text-xl">Choose route:</span>
+            <mat-form-field class="w-1/3">
+                <mat-label>Routes</mat-label>
+                <mat-select [(value)]="choosedRouteId" required>
+                    <mat-option>None</mat-option>
+                    @for (r of routes; track r) {
+                    <mat-option [value]="r.routeId">{{r.name}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <ng-container *ngIf="choosedRouteId != 0">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    (click)="addNewScheduleEntry()">Add new schedule entry</button>
+                @for (entry of busScheduleEntries; track entry; let i = $index) {
+                <app-bus-schedule-view class="mt-2" [scheduleModel]="entry" [index]="i"
+                    (delete)="handleScheduleEntryDeletion($event)" />
+                }
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5"
+                    (click)="createNewBus()">Submit all data</button>
+            </ng-container>
+
         </div>
     </div>
 </div>

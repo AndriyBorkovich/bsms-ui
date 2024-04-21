@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Bus, GetAllBusesRequest } from '../models/bus';
+import { Bus, CreateBusRequest, GetAllBusesRequest } from '../models/bus';
 import { ListResponse } from '../models/list.response';
 import { Observable } from 'rxjs';
+import { CreatedEntityResponse } from '../models/general';
 
 @Injectable({
   providedIn: 'root',
@@ -16,5 +17,9 @@ export class BusService {
     return this.httpClient.get<ListResponse<Bus>>(
       `${this.path}/GetAll?SearchedBrand=${request.searchedBrand}&SearchedBusNumber=${request.searchedBusNumber}&Pagination.PageNumber=${request.pagination.pageNumber}&Pagination.PageSize=${request.pagination.pageSize}`
     );
+  }
+
+  create(request: CreateBusRequest) {
+    return this.httpClient.post<CreatedEntityResponse>(`${this.path}/Create`, request);
   }
 }
