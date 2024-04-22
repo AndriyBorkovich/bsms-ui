@@ -17,7 +17,7 @@ export const routes: Routes = [
     path: 'buses',
     component: BusesViewComponent,
     canActivate: [RoleGuard],
-    data: { expectedRoles: ['Admin', 'Driver'] },
+    data: { expectedRoles: ['Admin', 'Passenger', 'Driver'] },
   },
   {
     path: 'create-bus',

@@ -57,3 +57,12 @@ export class CreateBusScheduleRequest {
     );
   }
 }
+
+export class EditBusRequest {
+  constructor(
+    public busId: number,
+    public brand: string,
+    public number: string,
+    public capacity: number,
+  ) { }
+}

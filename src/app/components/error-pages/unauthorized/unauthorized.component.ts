@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
           Oops! You do not have access to this part of cite.
         </p>
         <a
-          routerLink="/"
+          routerLink="/login"
           class="mt-4 inline-block rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
         >
           Register or log in

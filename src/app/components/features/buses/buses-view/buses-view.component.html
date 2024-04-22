@@ -55,7 +55,7 @@
                 <th scope="col" class="px-6 py-3">
                     Rating
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th *hasAnyRole="['Admin']" scope="col" class="px-6 py-3">
                     Actions
                 </th>
             </tr>
@@ -82,17 +82,16 @@
                 <td class="px-9 py-4">
                     {{item.rating}}
                 </td>
-                <td class="px-6 py-4">
-                    <button class="mr-3">
+                <td *hasAnyRole="['Admin']" class="px-6 py-4">
+                    <button class="mr-3" (click)="edit(item)">
                         <mat-icon fontIcon="edit"></mat-icon>
                     </button>
-                    <button>
+                    <button (click)="delete(item.busId)">
                         <mat-icon fontIcon="delete"></mat-icon>
                     </button>
                 </td>
             </tr>
             }
-
         </tbody>
     </table>
 </div>
