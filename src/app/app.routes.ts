@@ -9,6 +9,7 @@ import { NotFoundComponent } from './components/error-pages/not-found/not-found.
 import { ServerErrorComponent } from './components/error-pages/server-error/server-error.component';
 import { UnauthorizedComponent } from './components/error-pages/unauthorized/unauthorized.component';
 import { PassengersViewComponent } from './components/features/passengers/passengers-view/passengers-view.component';
+import { DriversViewComponent } from './components/features/drivers/drivers-view/drivers-view.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -31,6 +32,12 @@ export const routes: Routes = [
     component: PassengersViewComponent,
     canActivate: [RoleGuard],
     data: { expectedRoles: ['Admin', 'Driver'] },
+  },
+  {
+    path: 'drivers',
+    component: DriversViewComponent,
+    canActivate: [RoleGuard],
+    data: { expectedRoles: ['Admin']},
   },
   { path: 'server-error', component: ServerErrorComponent },
   { path: 'no-acess', component: UnauthorizedComponent },

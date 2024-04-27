@@ -31,7 +31,7 @@ import { EditBusModalComponent } from '../edit-bus-modal/edit-bus-modal.componen
 export class BusesViewComponent implements OnInit {
   buses: Bus[] = [];
   totalItems = 1;
-  pageSize = 10;
+  pageSize = 5;
   currentPage = 0; // mat-paginator count from 0
   searchedBusNumber: string | null = '';
   searchedBusBrand: string | null = '';

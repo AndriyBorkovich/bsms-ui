@@ -1,10 +1,10 @@
 <h1 mat-dialog-title class="text-center">{{title}}</h1>
 <form [formGroup]="customForm">
-    <div mat-dialog-content>
+    <div mat-dialog-content align="center" >
         <div class="mb-3">
             <mat-form-field>
                 <mat-label>First name</mat-label>
-                <input type="text" required matInput [(ngModel)]="passenger.firstName" formControlName="firstName">
+                <input type="text" required matInput [(ngModel)]="driver.firstName" formControlName="firstName">
                 <mat-hint align="start" class="form-hint-font-size">No more than 50 characters</mat-hint>
                 <mat-error *ngIf="FormsChecker.controlHasError(this.customForm,'firstName', 'required')">Fist name is
                     required</mat-error>
@@ -17,7 +17,8 @@
         <div class="mb-3">
             <mat-form-field>
                 <mat-label>Last name</mat-label>
-                <input type="text" required matInput [(ngModel)]="passenger.lastName" formControlName="lastName">
+                <input type="text" required matInput [(ngModel)]="driver.lastName"
+                 formControlName="lastName">
                 <mat-hint align="start" class="form-hint-font-size">No more than 50 characters</mat-hint>
                 <mat-error *ngIf="FormsChecker.controlHasError(this.customForm,'lastName', 'required')">Last name is
                     required</mat-error>
@@ -29,32 +30,28 @@
         </div>
         <div class="mb-3">
             <mat-form-field>
-                <mat-label>Phone</mat-label>
-                <input type="text" matInput [ngModel]="passenger.phoneNumber" formControlName="phoneNumber">
-                <mat-hint align="start" class="form-hint-font-size"></mat-hint>
-                <mat-error *ngIf="FormsChecker.controlHasError(this.customForm,'phoneNumber', 'minlength')">Min:
-                    5</mat-error>
-                <mat-error *ngIf="FormsChecker.controlHasError(this.customForm,'phoneNumber', 'maxlength')">Limit
-                    exceed</mat-error>
-                <mat-error class="form-hint-font-size"
-                    *ngIf="FormsChecker.controlHasError(this.customForm,'phoneNumber', 'pattern')">Format:
-                    123-456-7890</mat-error>
+                <mat-label>Company</mat-label>
+                <mat-select [(value)]="choosenCompany" required>
+                    @for (company of companies; track company) {
+                    <mat-option [value]="company.companyId">{{company.name}}</mat-option>
+                    }
+                </mat-select>
             </mat-form-field>
         </div>
         <div class="mb-3">
-            <mat-form-field>
-                <mat-label>Email</mat-label>
-                <input type="email" matInput [ngModel]="passenger.email" formControlName="email">
-                <mat-error *ngIf="FormsChecker.controlHasError(this.customForm,'email', 'maxlength')">Limit
+            <mat-form-field class="w-72">
+                <mat-label>License</mat-label>
+                <input type="text" class="w-50" matInput [ngModel]="driver.license" formControlName="licenseNumber">
+                <mat-error *ngIf="FormsChecker.controlHasError(this.customForm,'licenseNumber', 'maxlength')">Limit
                     exceed</mat-error>
-                <mat-error class="form-hint-font-size"
-                    *ngIf="FormsChecker.controlHasError(this.customForm,'email', 'pattern')">Format: name.surname
-                    domen.com</mat-error>
+                <!-- <mat-error class="form-hint-font-size"
+                    *ngIf="FormsChecker.controlHasError(this.customForm,'licenseNumber', 'pattern')">Format: name.surname
+                    domen.com</mat-error> -->
             </mat-form-field>
         </div>
 
     </div>
-    <div class="items-center justify-center" mat-dialog-actions>
+    <div align="center" mat-dialog-actions>
         <button mat-raised-button color="primary" [disabled]="!customForm.valid" type="submit"
             (click)="onSubmit()">Save</button>
         <button mat-flat-button (click)="onExit()">Exit</button>

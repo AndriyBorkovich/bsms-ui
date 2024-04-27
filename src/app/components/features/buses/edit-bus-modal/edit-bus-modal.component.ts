@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,7 +29,7 @@ import { RegexConstants } from '../../helpers/regex-constants';
   templateUrl: './edit-bus-modal.component.html',
   styles: ``,
 })
-export class EditBusModalComponent {
+export class EditBusModalComponent implements OnInit {
   customForm: FormGroup = {} as FormGroup;
   constructor(
     public dialogRef: MatDialogRef<EditBusModalComponent>,
