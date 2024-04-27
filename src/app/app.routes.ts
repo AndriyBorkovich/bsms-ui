@@ -8,6 +8,7 @@ import { RoleGuard } from './guards/role.guard';
 import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
 import { ServerErrorComponent } from './components/error-pages/server-error/server-error.component';
 import { UnauthorizedComponent } from './components/error-pages/unauthorized/unauthorized.component';
+import { PassengersViewComponent } from './components/features/passengers/passengers-view/passengers-view.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -24,6 +25,12 @@ export const routes: Routes = [
     component: CreateBusComponent,
     canActivate: [RoleGuard],
     data: { expectedRoles: ['Admin'] },
+  },
+  {
+    path: 'passengers',
+    component: PassengersViewComponent,
+    canActivate: [RoleGuard],
+    data: { expectedRoles: ['Admin', 'Driver'] },
   },
   { path: 'server-error', component: ServerErrorComponent },
   { path: 'no-acess', component: UnauthorizedComponent },

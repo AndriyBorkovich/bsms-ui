@@ -14,7 +14,10 @@ import { EditBusModalComponent } from '../edit-bus-modal/edit-bus-modal.componen
 @Component({
   selector: 'app-bus-view',
   templateUrl: './buses-view.component.html',
-  styleUrls: ['./buses-view.component.css'],
+  styles: `
+    mat-paginator {
+      background-color: rgba(255, 255, 255, 0);
+    }`,
   standalone: true,
   imports: [
     CommonModule,

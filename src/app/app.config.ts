@@ -17,7 +17,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 export function tokenGetter() {
   let user : User | null = JSON.parse(localStorage.getItem('user'));
-  return user.token;
+  return user?.token;
 }
 
 export const appConfig: ApplicationConfig = {

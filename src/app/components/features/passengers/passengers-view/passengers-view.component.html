@@ -2,8 +2,8 @@
     <!-- Filtering inputs-->
     <div class="mb-4 items-center justify-center bg-blue-400 dark:bg-gray-900">
         <div class="flex">
-            <!-- Bus number input -->
-            <div class="relative mt-1 mr-5">
+            <!-- First name input -->
+            <div class="relative mt-1 ml-2 mr-5">
                 <label for="table-search-left" class="sr-only">Search</label>
                 <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -14,10 +14,10 @@
                 </div>
                 <input type="text" id="table-search-left"
                     class="block w-50 pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Search by bus number" (input)="searchByNumber($event.target)">
+                    placeholder="Search by first name" (input)="searchByFirstName($event.target)">
             </div>
 
-            <!-- Brand input -->
+            <!-- Last name input -->
             <div class="relative mt-1">
                 <label for="table-search-right" class="sr-only">Search</label>
                 <div class="absolute inset-y-0 rtl:inset-r-0 flex items-center ps-3 pointer-events-none">
@@ -28,40 +28,32 @@
                     </svg>
                 </div>
                 <input type="text" id="table-search-right"
-                    class="block w-60 pt-2 ps-8 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Search by bus brand" (input)="searchByBrand($event.target)">
+                    class="block w-50 pt-2 ps-8 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Search by last name" (input)="searchByLastName($event.target)">
             </div>
 
-            <!--Creation of new bus-->
-            <div *hasAnyRole="['Admin']" class="flex justify-between ml-32">
-                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    <a class="text-white dark:text-white hover:underline" routerLink="/create-bus">Create bus</a>
-                </button>
+            <!--Creation of new passenger-->
+            <div *hasAnyRole="['Admin']" class="flex justify-between ml-20">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="add()">Create passenger</button>
             </div>
         </div>
     </div>
-    <!--Buses table-->
+    <!-- Passengers table-->
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="h-2/3 text-sm text-left rtl:text-right text-blue-100 dark:text-blue-100">
             <thead class="text-xs text-white uppercase bg-blue-600 dark:text-white">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        Bus №
+                        First name
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Brand
+                        Last name
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Capacity
+                        Phone
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Driver
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Company
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Rating
+                        Email
                     </th>
                     <th *hasAnyRole="['Admin']" scope="col" class="px-6 py-3">
                         Actions
@@ -69,32 +61,26 @@
                 </tr>
             </thead>
             <tbody>
-                @for (item of buses; track $index)
+                @for (item of passengers; track $index)
                 {
                 <tr class="bg-blue-500 border-b border-blue-300 hover:bg-blue-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
-                        {{item.number}}
-                    </th>
                     <td class="px-6 py-4">
-                        {{item.brand}}
+                        {{item.firstName}}
                     </td>
                     <td class="px-6 py-4">
-                        {{item.capacity}}
+                        {{item.lastName}}
                     </td>
                     <td class="px-6 py-4">
-                        {{item.driverName}}
+                        {{item.phoneNumber}}
                     </td>
                     <td class="px-6 py-4">
-                        {{item.companyName}}
-                    </td>
-                    <td class="px-9 py-4">
-                        {{item.rating}}
+                        {{item.email}}
                     </td>
                     <td *hasAnyRole="['Admin']" class="px-6 py-4">
                         <button class="mr-3" (click)="edit(item)">
                             <mat-icon fontIcon="edit"></mat-icon>
                         </button>
-                        <button (click)="delete(item.busId)">
+                        <button (click)="delete(item.passengerId)">
                             <mat-icon fontIcon="delete"></mat-icon>
                         </button>
                     </td>

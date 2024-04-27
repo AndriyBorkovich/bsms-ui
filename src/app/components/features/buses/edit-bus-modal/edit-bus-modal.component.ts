@@ -13,6 +13,7 @@ import {
 import { EditBusRequest } from 'src/app/models/bus';
 import { FormsChecker } from '../../helpers/forms-checker';
 import { NgIf } from '@angular/common';
+import { RegexConstants } from '../../helpers/regex-constants';
 
 @Component({
   selector: 'app-edit-bus-modal',
@@ -23,7 +24,7 @@ import { NgIf } from '@angular/common';
     ReactiveFormsModule,
     MatButtonModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   templateUrl: './edit-bus-modal.component.html',
   styles: ``,
@@ -38,6 +39,7 @@ export class EditBusModalComponent {
   onExit() {
     this.dialogRef.close(undefined);
   }
+
   onSubmit() {
     if (this.customForm.valid) {
       this.dialogRef.close(this.readDataFromForm());
@@ -53,11 +55,13 @@ export class EditBusModalComponent {
       ]),
       busBrand: new FormControl('', [
         Validators.required,
-        Validators.maxLength(20),
+        Validators.maxLength(50),
+        Validators.pattern(RegexConstants.onlyLetters),
       ]),
       busNumber: new FormControl('', [
         Validators.required,
         Validators.maxLength(20),
+        Validators.pattern(RegexConstants.onlyLettersAndNumbers),
       ]),
     });
   }

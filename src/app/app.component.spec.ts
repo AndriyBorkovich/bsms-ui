@@ -14,10 +14,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'football-manager-ui' title`, () => {
+  it(`should have the 'bsms-ui' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('football-manager-ui');
+    expect(app.title).toEqual('bsms-ui');
   });
 
   it('should render title', () => {
