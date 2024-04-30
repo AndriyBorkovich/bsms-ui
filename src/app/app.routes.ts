@@ -10,6 +10,7 @@ import { ServerErrorComponent } from './components/error-pages/server-error/serv
 import { UnauthorizedComponent } from './components/error-pages/unauthorized/unauthorized.component';
 import { PassengersViewComponent } from './components/features/passengers/passengers-view/passengers-view.component';
 import { DriversViewComponent } from './components/features/drivers/drivers-view/drivers-view.component';
+import { CompaniesViewComponent } from './components/features/companies/companies-view/companies-view.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -36,6 +37,12 @@ export const routes: Routes = [
   {
     path: 'drivers',
     component: DriversViewComponent,
+    canActivate: [RoleGuard],
+    data: { expectedRoles: ['Admin']},
+  },
+  {
+    path: 'companies',
+    component: CompaniesViewComponent,
     canActivate: [RoleGuard],
     data: { expectedRoles: ['Admin']},
   },

@@ -1,1 +1,124 @@
-<p>companies-view works!</p>
+<div class="mt-3 w-full flex flex-col items-center justify-center overflow-x-auto">
+    <!-- Filtering inputs-->
+    <div class="mb-4 items-center justify-center bg-blue-400 dark:bg-gray-900">
+        <div class="flex">
+            <!-- Name input -->
+            <div class="relative mt-1 mr-3">
+                <label for="table-search-left" class="sr-only">Search</label>
+                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+                <input type="text" id="table-search-left"
+                    class="block w-50 pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Search by name" (input)="searchByName($event.target)">
+            </div>
+
+            <!-- City input -->
+            <div class="relative mt-1 mr-3">
+                <label for="table-search-right" class="sr-only">Search</label>
+                <div class="absolute inset-y-0 rtl:inset-r-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+                <input type="text" id="table-search-right"
+                    class="block w-50 pt-2 ps-8 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Search by city" (input)="searchByCity($event.target)">
+            </div>
+
+            <!--Country input-->
+            <div class="relative mt-1 mr-3">
+                <label for="table-search-right" class="sr-only">Search</label>
+                <div class="absolute inset-y-0 rtl:inset-r-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+                <input type="text" id="table-search-right"
+                    class="block w-50 pt-2 ps-8 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Search by country" (input)="searchByCountry($event.target)">
+            </div>
+
+            <!-- Zip code input-->
+            <div class="relative mt-1">
+                <label for="table-search-right" class="sr-only">Search</label>
+                <div class="absolute inset-y-0 rtl:inset-r-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+                <input type="text" id="table-search-right"
+                    class="block w-50 pt-2 ps-8 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Search by zip code" (input)="searchByZipCode($event.target)">
+            </div>
+
+            <!--Creation of new company-->
+            <div *hasAnyRole="['Admin']" class="flex justify-between ml-5">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="add()">Create company</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Companies table-->
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="h-2/3 text-sm text-left rtl:text-right text-blue-100 dark:text-blue-100">
+            <thead class="text-xs text-white uppercase bg-blue-600 dark:text-white">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Address
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Phone
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Email
+                    </th>
+                    <th *hasAnyRole="['Admin']" scope="col" class="px-6 py-3">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (item of companies; track $index)
+                {
+                <tr class="bg-blue-500 border-b border-blue-300 hover:bg-blue-700">
+                    <td class="px-6 py-4">
+                        {{item.name}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{item.address}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{item.phone}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{item.email}}
+                    </td>
+                    <td *hasAnyRole="['Admin']" class="px-10 py-4">
+                        <button  (click)="delete(item.companyId)">
+                            <mat-icon fontIcon="delete"></mat-icon>
+                        </button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <mat-paginator class="bg-blue-500" [length]="totalItems" [showFirstLastButtons]="true" [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 25, 50]" [pageIndex]="currentPage" (page)="pageChanged($event)" />
+</div>

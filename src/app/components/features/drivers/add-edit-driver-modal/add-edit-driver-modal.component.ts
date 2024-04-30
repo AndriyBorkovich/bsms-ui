@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,7 +7,6 @@ import {
   FormControl,
   FormGroup,
   FormsModule,
-  NgModel,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -57,7 +56,7 @@ export class AddEditDriverModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.title = this.driver.driverId === 0 ? 'Add driver' : 'Edit driver';
-    
+
     this.customForm = new FormGroup({
       firstName: new FormControl('', [
         Validators.required,
@@ -69,14 +68,14 @@ export class AddEditDriverModalComponent implements OnInit {
         Validators.maxLength(50),
         Validators.pattern(RegexConstants.onlyLetters),
       ]),
-      licenseNumber: new FormControl('', [
-        Validators.maxLength(50)
-      ])
+      licenseNumber: new FormControl('', [Validators.maxLength(50)]),
     });
 
     this.companyService.getAllShortInfo().subscribe((response) => {
       this.companies = response;
-      this.choosenCompany = this.companies.find(company => company.name === this.driver.companyName)?.companyId;
+      this.choosenCompany = this.companies.find(
+        (company) => company.name === this.driver.companyName
+      )?.companyId;
     });
 
     this.dialogRef.updateSize('30%', '80%');
@@ -88,8 +87,14 @@ export class AddEditDriverModalComponent implements OnInit {
     const lastName: string = this.customForm.controls['lastName'].value;
     const licenseNumber: string =
       this.customForm.controls['licenseNumber'].value;
-      console.log(this.choosenCompany);
-    return new EditDriverRequest(id, firstName, lastName, this.choosenCompany, licenseNumber);
+    console.log(this.choosenCompany);
+    return new EditDriverRequest(
+      id,
+      firstName,
+      lastName,
+      this.choosenCompany,
+      licenseNumber
+    );
   }
 
   protected readonly FormsChecker = FormsChecker;
