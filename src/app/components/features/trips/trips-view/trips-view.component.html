@@ -1,0 +1,113 @@
+<div class="mt-3 w-full flex flex-col items-center justify-center overflow-x-auto">
+    <!-- Filtering inputs-->
+    <div class="mb-4 items-center justify-center bg-blue-400 dark:bg-gray-900">
+        <p class="text-white text-center font-extrabold text-2xl">{{currentDate | date: 'fullDate'}}</p>
+
+        <div class="flex flex-row">
+            <!-- Route input -->
+            <div class="relative mt-1 mr-5">
+                <label for="table-search-left" class="sr-only">Search</label>
+                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-10 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 12 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+                <input type="text" id="table-search-left"
+                    class="block w-50 h-14 pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Search by route" (input)="searchByRoute($event.target)">
+            </div>
+            <div class="relative mt-1">
+                <mat-form-field>
+                    <mat-label>Status</mat-label>
+                    <mat-select [(value)]="searchedStatus" (selectionChange)="onStatusSelectionChange($event.value)">
+                        <mat-option [value]="''">-</mat-option>
+                        <mat-option *ngFor="let status of statusOptions" [value]="status">
+                            {{ status }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <!--Trips table-->
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="h-2/3 text-sm text-left rtl:text-right text-blue-100 dark:text-blue-100">
+            <thead class="text-xs text-white uppercase bg-blue-600 dark:text-white">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Departure
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Arrival
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Route
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Bus info
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Status
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Free seats
+                    </th>
+                    <th *hasAnyRole="['Admin', 'Passenger']" scope="col" class="px-6 py-3">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="(trips$ | async) as trips; else loading">
+                    @for (item of trips; track $index)
+                    {
+                    <tr class="bg-blue-500 border-b border-blue-300 hover:bg-blue-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
+                            {{item.departureTime | date: 'HH:mm'}}
+                        </th>
+                        <td class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
+                            {{item.arrivalTime | date: 'HH:mm'}}
+                        </td>
+                        <td class="px-6 py-4 ">
+                            {{item.routeName}}
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <div class="text-sm font-medium">Brand: {{ item.busBrand }}</div>
+                                <div class="mx-2 text-sm font-medium"> Rating: {{ item.busRating }}</div>
+                            </div>
+                            <div class="text-sm font-medium">Company: {{ item.companyName }}</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            {{item.tripStatus}}
+                        </td>
+                        <td class="px-9 py-4">
+                            {{item.freeSeatsCount}}
+                        </td>
+                        <td *hasAnyRole="['Admin', 'Passenger']" class="px-6 py-4">
+                            <button class="ml-4" (click)="buyTicket()" matTooltip="Buy ticket for this trip">
+                                <mat-icon fontIcon="receipt"></mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                </ng-container>
+                <ng-template #loading>
+                    <tr>
+                        <td colspan="12">
+                            <div class="flex justify-center">
+                                <mat-spinner/>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <mat-paginator class="bg-blue-500" [length]="total$ | async" [showFirstLastButtons]="true" [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 25, 50]" [pageIndex]="currentPage" (page)="pageChanged($event)" />
+</div>

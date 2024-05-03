@@ -11,6 +11,7 @@ import { UnauthorizedComponent } from './components/error-pages/unauthorized/una
 import { PassengersViewComponent } from './components/features/passengers/passengers-view/passengers-view.component';
 import { DriversViewComponent } from './components/features/drivers/drivers-view/drivers-view.component';
 import { CompaniesViewComponent } from './components/features/companies/companies-view/companies-view.component';
+import { TripsViewComponent } from './components/features/trips/trips-view/trips-view.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -45,6 +46,12 @@ export const routes: Routes = [
     component: CompaniesViewComponent,
     canActivate: [RoleGuard],
     data: { expectedRoles: ['Admin']},
+  },
+  {
+    path: 'trips',
+    component: TripsViewComponent,
+    canActivate: [RoleGuard],
+    data: { expectedRoles: ['Admin', 'Passenger', 'Driver']},
   },
   { path: 'server-error', component: ServerErrorComponent },
   { path: 'no-acess', component: UnauthorizedComponent },
