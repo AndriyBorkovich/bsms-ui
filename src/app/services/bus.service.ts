@@ -15,7 +15,7 @@ export class BusService {
 
   getAll(request: GetAllBusesRequest): Observable<ListResponse<Bus>> {
     return this.httpClient.get<ListResponse<Bus>>(
-      `${this.path}/GetAll?SearchedBrand=${request.searchedBrand}&SearchedBusNumber=${request.searchedBusNumber}&Pagination.PageNumber=${request.pagination.pageNumber}&Pagination.PageSize=${request.pagination.pageSize}`
+      `${this.path}/GetAll?SearchedBrand=${request.searchedBrand}&SearchedBusNumber=${request.searchedBusNumber}&HaveBoughtTickets=${request.haveBoughtTickets}&Pagination.PageNumber=${request.pagination.pageNumber}&Pagination.PageSize=${request.pagination.pageSize}`
     );
   }
 

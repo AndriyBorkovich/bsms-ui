@@ -32,15 +32,22 @@
                     placeholder="Search by bus brand" (input)="searchByBrand($event.target)">
             </div>
 
-            <!--Creation of new bus-->
-            <div *hasAnyRole="['Admin']" class="flex justify-between ml-32">
+            <!-- Filter to show only buses which have at least one bought ticket for its trips -->
+            <div class="ml-5 relative mt-1 flex flex-row">
+                <span class="text-white text-lg mt-1">Show with tickets: </span>
+                <mat-checkbox [checked]="haveBoughtTickets" (change)="onTicketsFlagChange()"/>
+            </div>
+
+            <!-- Creation of new bus -->
+            <div *hasAnyRole="['Admin']" class="flex justify-between ml-20">
                 <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     <a class="text-white dark:text-white hover:underline" routerLink="/create-bus">Create bus</a>
                 </button>
             </div>
         </div>
     </div>
-    <!--Buses table-->
+
+    <!-- Buses table -->
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="h-2/3 text-sm text-left rtl:text-right text-blue-100 dark:text-blue-100">
             <thead class="text-xs text-white uppercase bg-blue-600 dark:text-white">
@@ -63,48 +70,62 @@
                     <th scope="col" class="px-6 py-3">
                         Rating
                     </th>
-                    <th *hasAnyRole="['Admin']" scope="col" class="px-6 py-3">
+                    <th *hasAnyRole="['Admin', 'Passenger']" scope="col" class="px-10 py-4">
                         Actions
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @for (item of buses; track $index)
-                {
-                <tr class="bg-blue-500 border-b border-blue-300 hover:bg-blue-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
-                        {{item.number}}
-                    </th>
-                    <td class="px-6 py-4">
-                        {{item.brand}}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{item.capacity}}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{item.driverName}}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{item.companyName}}
-                    </td>
-                    <td class="px-9 py-4">
-                        {{item.rating}}
-                    </td>
-                    <td *hasAnyRole="['Admin']" class="px-6 py-4">
-                        <button class="mr-3" (click)="edit(item)">
-                            <mat-icon fontIcon="edit"></mat-icon>
-                        </button>
-                        <button (click)="delete(item.busId)">
-                            <mat-icon fontIcon="delete"></mat-icon>
-                        </button>
-                    </td>
-                </tr>
-                }
+                <ng-container *ngIf="(buses$ | async) as buses; else loading">
+                    @for (item of buses; track $index)
+                    {
+                    <tr class="bg-blue-500 border-b border-blue-300 hover:bg-blue-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
+                            {{item.number}}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{item.brand}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{item.capacity}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{item.driverName}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{item.companyName}}
+                        </td>
+                        <td class="px-9 py-4">
+                            {{item.rating}}
+                        </td>
+                        <td class="px-6 py-4">
+                            <button  *hasAnyRole="['Admin']" matTooltip="Edit data" class="mr-3" (click)="edit(item)">
+                                <mat-icon fontIcon="edit"></mat-icon>
+                            </button>
+                            <button *hasAnyRole="['Admin']" matTooltip="Delete item" class="mr-3" (click)="delete(item.busId)">
+                                <mat-icon fontIcon="delete"></mat-icon>
+                            </button>
+                            <button  *hasAnyRole="['Admin', 'Passenger']" matTooltip="Left a review" (click)="createReview(item.busId)">
+                                <mat-icon fontIcon="rate_review"></mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                </ng-container>
+                <ng-template #loading>
+                    <tr>
+                        <td colspan="12">
+                            <div class="flex justify-center">
+                                <mat-spinner/>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
             </tbody>
         </table>
     </div>
 
     <!-- Pagination -->
-    <mat-paginator class="bg-blue-500" [length]="totalItems" [showFirstLastButtons]="true" [pageSize]="pageSize"
+    <mat-paginator class="bg-blue-500" [length]="totalItems$ | async" [showFirstLastButtons]="true" [pageSize]="pageSize"
         [pageSizeOptions]="[5, 10, 25, 50]" [pageIndex]="currentPage" (page)="pageChanged($event)" />
 </div>

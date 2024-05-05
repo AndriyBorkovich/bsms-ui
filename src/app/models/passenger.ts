@@ -10,6 +10,7 @@ export class Passenger {
   ) {}
 }
 
+// requests
 export class GetAllPassengersRequest {
   constructor(
     public pagination: Pagination,
@@ -25,4 +26,9 @@ export class CreatePassengerRequest {
     public phoneNumber: string,
     public email: string
   ) {}
+}
+
+// responses
+export class PassengerShortInfo {
+  constructor(public passengerId: number, public fullName: string) {}
 }

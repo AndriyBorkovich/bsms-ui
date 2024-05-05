@@ -2,7 +2,6 @@
     <!-- Filtering inputs-->
     <div class="mb-4 items-center justify-center bg-blue-400 dark:bg-gray-900">
         <p class="text-white text-center font-extrabold text-2xl">{{currentDate | date: 'fullDate'}}</p>
-
         <div class="flex flex-row">
             <!-- Route input -->
             <div class="relative mt-1 mr-5">
@@ -76,7 +75,7 @@
                         <td class="px-6 py-4">
                             <div class="flex items-center">
                                 <div class="text-sm font-medium">Brand: {{ item.busBrand }}</div>
-                                <div class="mx-2 text-sm font-medium"> Rating: {{ item.busRating }}</div>
+                                <div class="mx-2 text-sm font-medium"> Rating: {{ item.busRating }} / 5.0</div>
                             </div>
                             <div class="text-sm font-medium">Company: {{ item.companyName }}</div>
                         </td>

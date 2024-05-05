@@ -1,0 +1,70 @@
+<h1 mat-dialog-title class="text-center">Create bus review</h1>
+<form [formGroup]="customForm" (ngSubmit)="onSubmit()">
+  <div mat-dialog-content>
+    <div class="mb-3">
+      <mat-form-field>
+          <mat-label>Passenger</mat-label>
+          <mat-select [(value)]="choosedPassenger" required>
+              @for (p of relatedPassengers; track p) {
+              <mat-option [value]="p.passengerId">{{p.fullName}}</mat-option>
+              }
+          </mat-select>
+      </mat-form-field>
+  </div>
+    <div class="mb-3">
+      <mat-form-field>
+        <mat-label>Comfort rating</mat-label>
+        <input type="number" min="1" max="5" required matInput formControlName="comfortRating">
+        <mat-error *ngIf="customForm.get('comfortRating').hasError('required')">Comfort rating is required</mat-error>
+        <mat-error *ngIf="customForm.get('comfortRating').hasError('min')">Minimum value is 1</mat-error>
+        <mat-error *ngIf="customForm.get('comfortRating').hasError('max')">Maximum value is 5</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="mb-3">
+      <mat-form-field>
+        <mat-label>Driver punctuality</mat-label>
+        <input type="number" min="1" max="5" required matInput formControlName="punctualityRating">
+        <mat-error *ngIf="customForm.get('punctualityRating').hasError('required')">Punctuality rating is required</mat-error>
+        <mat-error *ngIf="customForm.get('punctualityRating').hasError('min')">Minimum value is 1</mat-error>
+        <mat-error *ngIf="customForm.get('punctualityRating').hasError('max')">Maximum value is 5</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="mb-3">
+      <mat-form-field>
+        <mat-label>Price quality ratio</mat-label>
+        <input type="number" required matInput formControlName="priceQualityRatioRating">
+        <mat-error *ngIf="customForm.get('priceQualityRatioRating').hasError('required')">Price quality ratio rating is required</mat-error>
+        <mat-error *ngIf="customForm.get('priceQualityRatioRating').hasError('min')">Minimum value is 1</mat-error>
+        <mat-error *ngIf="customForm.get('priceQualityRatioRating').hasError('max')">Maximum value is 5</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="mb-3">
+      <mat-form-field>
+        <mat-label>Internet connection</mat-label>
+        <input type="number" min="1" max="5" required matInput formControlName="internetConnectionRating">
+        <mat-error *ngIf="customForm.get('internetConnectionRating').hasError('required')">Internet connection rating is required</mat-error>
+        <mat-error *ngIf="customForm.get('internetConnectionRating').hasError('min')">Minimum value is 1</mat-error>
+        <mat-error *ngIf="customForm.get('internetConnectionRating').hasError('max')">Maximum value is 5</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="mb-3">
+      <mat-form-field>
+        <mat-label>Sanitary conditions</mat-label>
+        <input type="number" min="1" max="5" required matInput formControlName="sanitaryConditionsRating">
+        <mat-error *ngIf="customForm.get('sanitaryConditionsRating').hasError('required')">Sanitary conditions rating is required</mat-error>
+        <mat-error *ngIf="customForm.get('sanitaryConditionsRating').hasError('min')">Minimum value is 1</mat-error>
+        <mat-error *ngIf="customForm.get('sanitaryConditionsRating').hasError('max')">Maximum value is 5</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="mb-3">
+      <mat-form-field>
+        <mat-label>Comments</mat-label>
+        <textarea matInput formControlName="comments"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="items-center justify-center" mat-dialog-actions>
+    <button mat-raised-button [disabled]="!customForm.valid" color="primary" type="submit">Save</button>
+    <button mat-flat-button (click)="onExit()">Cancel</button>
+  </div>
+</form>

@@ -87,7 +87,6 @@ export class AddEditDriverModalComponent implements OnInit {
     const lastName: string = this.customForm.controls['lastName'].value;
     const licenseNumber: string =
       this.customForm.controls['licenseNumber'].value;
-    console.log(this.choosenCompany);
     return new EditDriverRequest(
       id,
       firstName,

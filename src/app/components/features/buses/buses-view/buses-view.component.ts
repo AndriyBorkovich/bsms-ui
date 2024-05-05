@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Bus, EditBusRequest, GetAllBusesRequest } from 'src/app/models/bus';
+import {
+  Bus,
+  CreateBusReviewRequest,
+  EditBusRequest,
+  GetAllBusesRequest,
+} from 'src/app/models/bus';
 import { CommonModule, NgFor } from '@angular/common';
 import { BusService } from 'src/app/services/bus.service';
 import { HasAnyAppRoleDirective } from 'src/app/directives/has-any-role.directive';
@@ -10,6 +15,15 @@ import { Pagination } from 'src/app/models/pagination';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { EditBusModalComponent } from '../edit-bus-modal/edit-bus-modal.component';
+import { BusReviewModalComponent } from '../bus-review-modal/bus-review-modal.component';
+import { BusReviewService } from 'src/app/services/bus-review.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Observable, map, startWith } from 'rxjs';
+import {
+  MatProgressSpinner,
+  MatProgressSpinnerModule,
+} from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-bus-view',
@@ -26,20 +40,26 @@ import { EditBusModalComponent } from '../edit-bus-modal/edit-bus-modal.componen
     HasAnyAppRoleDirective,
     MatIconModule,
     MatPaginatorModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule
   ],
 })
 export class BusesViewComponent implements OnInit {
-  buses: Bus[] = [];
-  totalItems = 1;
+  buses$: Observable<Bus[]>;
+  totalItems$: Observable<number>;
   pageSize = 5;
-  currentPage = 0; // mat-paginator count from 0
+  currentPage = 0;
   searchedBusNumber: string | null = '';
   searchedBusBrand: string | null = '';
+  haveBoughtTickets: boolean = false;
 
   constructor(
     private busService: BusService,
+    private busReviewService: BusReviewService,
     private toaster: ToastrService,
-    public dialog: MatDialog
+    public editDialog: MatDialog,
+    public reviewDialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -60,6 +80,7 @@ export class BusesViewComponent implements OnInit {
       this.searchedBusNumber.length === 0
     )
       this.getAllBuses();
+    this.currentPage = 0;
   }
 
   searchByBrand(target: EventTarget) {
@@ -70,7 +91,7 @@ export class BusesViewComponent implements OnInit {
   }
 
   edit(busToEdit: Bus) {
-    const dialogRef = this.dialog.open(EditBusModalComponent, {
+    const dialogRef = this.editDialog.open(EditBusModalComponent, {
       data: new EditBusRequest(
         busToEdit.busId,
         busToEdit.brand,
@@ -99,18 +120,45 @@ export class BusesViewComponent implements OnInit {
     this.getAllBuses();
   }
 
+  createReview(id: number) {
+    const dialogRef = this.editDialog.open(BusReviewModalComponent, {
+      data: id,
+    });
+
+    dialogRef.afterClosed().subscribe((request: CreateBusReviewRequest) => {
+      if (request) {
+        this.busReviewService.create(request).subscribe((response) => {
+          this.toaster.success(
+            `Review #${response.id} was submited`,
+            'Success!'
+          );
+        });
+      } else {
+        this.toaster.warning('Review creation was canceled', 'Attention!');
+      }
+    });
+  }
+
+  onTicketsFlagChange() {
+    this.haveBoughtTickets = !this.haveBoughtTickets;
+    console.log(this.haveBoughtTickets);
+    this.getAllBuses();
+  }
+
   private getAllBuses() {
-    this.busService
-      .getAll(
-        new GetAllBusesRequest(
-          new Pagination(this.currentPage + 1, this.pageSize),
-          this.searchedBusBrand,
-          this.searchedBusNumber
-        )
+    const response$ = this.busService.getAll(
+      new GetAllBusesRequest(
+        new Pagination(this.currentPage + 1, this.pageSize),
+        this.searchedBusBrand,
+        this.searchedBusNumber,
+        this.haveBoughtTickets
       )
-      .subscribe((response) => {
-        this.buses = response.result;
-        this.totalItems = response.total;
-      });
+    );
+
+    this.buses$ = response$.pipe(map((response) => response.result));
+    this.totalItems$ = response$.pipe(
+      map((response) => response.total),
+      startWith(0)
+    );
   }
 }

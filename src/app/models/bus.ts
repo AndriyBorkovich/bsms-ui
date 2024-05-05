@@ -17,16 +17,19 @@ export class Bus {
 export class GetAllBusesRequest {
   searchedBrand?: string;
   searchedBusNumber?: string;
+  haveBoughtTickets?: boolean
   pagination: Pagination;
 
   constructor(
     pagination: Pagination,
     searchedBrand?: string,
-    searchedBusNumber?: string
+    searchedBusNumber?: string,
+    haveBoughtTickets?: boolean
   ) {
     this.pagination = pagination;
     this.searchedBrand = searchedBrand;
     this.searchedBusNumber = searchedBusNumber;
+    this.haveBoughtTickets = haveBoughtTickets;
   }
 }
 
@@ -65,4 +68,17 @@ export class EditBusRequest {
     public number: string,
     public capacity: number,
   ) { }
+}
+
+export class CreateBusReviewRequest {
+  constructor(
+    public busId: number,
+    public passengerId: number,
+    public comfortRating: number,
+    public punctualityRating: number,
+    public priceQualityRatioRating: number,
+    public internetConnectionRating: number,
+    public sanitaryConditionsRating: number,
+    public comments: string | null
+  ) {}
 }
