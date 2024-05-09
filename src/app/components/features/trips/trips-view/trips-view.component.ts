@@ -11,7 +11,11 @@ import { GetAllTripsRequest, Trip } from 'src/app/models/trip';
 import { Observable, Subscription, interval, map, startWith } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
-import { MatProgressSpinnerModule }  from '@angular/material/progress-spinner'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BuyTicketModalComponent } from '../buy-ticket-modal/buy-ticket-modal.component';
+import { BuyTicketRequest } from 'src/app/models/ticket';
+import { TicketService } from 'src/app/services/ticket.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 @Component({
   selector: 'app-trips-view',
   standalone: true,
@@ -23,10 +27,12 @@ import { MatProgressSpinnerModule }  from '@angular/material/progress-spinner'
     MatPaginatorModule,
     MatTooltipModule,
     MatSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatCheckboxModule,
+    MatTooltipModule
   ],
   templateUrl: './trips-view.component.html',
-  styles:  `
+  styles: `
   mat-paginator {
     background-color: rgba(255, 255, 255, 0);
   }`,
@@ -39,12 +45,24 @@ export class TripsViewComponent implements OnInit, OnDestroy {
   currentPage = 0;
   searchedRoute: string | null = '';
   searchedStatus: string | null = '';
-  statusOptions: string[] = ['Scheduled', 'InTransit', 'Delayed', 'Completed', 'Cancelled'];
+  statusOptions: string[] = [
+    'Scheduled',
+    'InTransit',
+    'Delayed',
+    'Completed',
+    'Cancelled',
+  ];
   refreshTripsJob: Subscription;
   currentDate: Date = new Date();
+  showLive: boolean = true;
 
-  constructor(private tripService: TripService) {}
-  
+  constructor(
+    private tripService: TripService,
+    private ticketService: TicketService,
+    private toaster: ToastrService,
+    public dialog: MatDialog
+  ) {}
+
   ngOnInit() {
     this.getAllTrips();
     this.refreshTripsJob = interval(40000).subscribe(() => {
@@ -53,7 +71,7 @@ export class TripsViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-   this.refreshTripsJob.unsubscribe();
+    this.refreshTripsJob.unsubscribe();
   }
 
   pageChanged(event: PageEvent) {
@@ -65,37 +83,52 @@ export class TripsViewComponent implements OnInit, OnDestroy {
   searchByRoute(target: EventTarget) {
     const element = target as HTMLInputElement;
     this.searchedRoute = element.value;
-    if (
-      this.searchedRoute.length > 2 ||
-      this.searchedRoute.length === 0
-    ) { 
-      this.getAllTrips();
+    if (this.searchedRoute.length > 2 || this.searchedRoute.length === 0) {
       this.currentPage = 0;
+      this.getAllTrips();
     }
   }
 
   onStatusSelectionChange(value: string) {
     if (value) {
+      this.currentPage = 0;
       this.getAllTrips();
     }
   }
 
-  buyTicket() {
+  onLiveFlagChange() {
+    this.showLive = !this.showLive;
+    this.getAllTrips();
+  }
 
+  buyTicket(tripId: number) {
+    const dialogRef = this.dialog.open(BuyTicketModalComponent, {
+      data: tripId,
+    });
+
+    dialogRef.afterClosed().subscribe((request: BuyTicketRequest) => {
+      if (request) {
+        this.ticketService.buy(request).subscribe(() => {
+          this.toaster.success(`Ticket was bought successfully`, 'Success!');
+          this.getAllTrips();
+        });
+      }
+    });
   }
 
   private getAllTrips() {
-    const response$ = this.tripService
-      .getAll(
-        new GetAllTripsRequest(
-          this.searchedRoute,
-          this.searchedStatus,
-          new Pagination(this.currentPage + 1, this.pageSize)
-        )
-      );
-    this.trips$ = response$.pipe(map(response => response.result));
+    const response$ = this.tripService.getAll(
+      new GetAllTripsRequest(
+        this.searchedRoute,
+        this.searchedStatus,
+        this.showLive,
+        new Pagination(this.currentPage + 1, this.pageSize)
+      )
+    );
+
+    this.trips$ = response$.pipe(map((response) => response.result));
     this.total$ = response$.pipe(
-      map(response => response.total),
+      map((response) => response.total),
       startWith(0)
     );
   }

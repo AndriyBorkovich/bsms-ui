@@ -19,3 +19,8 @@ export enum DayOfWeek {
     Friday = 5,
     Saturday = 6
 }
+
+export enum PaymentType {
+  Cash = 100,
+  BankCard = 200
+}

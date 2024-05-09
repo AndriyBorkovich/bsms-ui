@@ -20,7 +20,6 @@ import { BusReviewService } from 'src/app/services/bus-review.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Observable, map, startWith } from 'rxjs';
 import {
-  MatProgressSpinner,
   MatProgressSpinnerModule,
 } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -132,6 +131,7 @@ export class BusesViewComponent implements OnInit {
             `Review #${response.id} was submited`,
             'Success!'
           );
+          this.getAllBuses();
         });
       } else {
         this.toaster.warning('Review creation was canceled', 'Attention!');
@@ -141,7 +141,6 @@ export class BusesViewComponent implements OnInit {
 
   onTicketsFlagChange() {
     this.haveBoughtTickets = !this.haveBoughtTickets;
-    console.log(this.haveBoughtTickets);
     this.getAllBuses();
   }
 

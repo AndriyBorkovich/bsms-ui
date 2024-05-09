@@ -20,7 +20,7 @@ export class PassengerService {
   }
 
   getAllShortInfo(busId: number | null) {
-    return this.httpClient.get<PassengerShortInfo[]>(`${this.path}/GetAllShortInfo?BusId=${busId}`);
+    return this.httpClient.get<PassengerShortInfo[]>(`${this.path}/GetAllShortInfo${busId != null ? `?BusId=${busId}` : ''}`);
   }
 
   create(request: CreatePassengerRequest) {

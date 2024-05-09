@@ -28,6 +28,10 @@
                     </mat-select>
                 </mat-form-field>
             </div>
+            <div class="ml-5 relative mt-1 flex flex-row">
+                <span class="text-white text-lg mt-1" matTooltip="Show only trips on current moment">Live: </span>
+                <mat-checkbox [checked]="showLive" (change)="onLiveFlagChange()"/>
+            </div>
         </div>
     </div>
     <!--Trips table-->
@@ -60,45 +64,61 @@
             </thead>
             <tbody>
                 <ng-container *ngIf="(trips$ | async) as trips; else loading">
-                    @for (item of trips; track $index)
-                    {
-                    <tr class="bg-blue-500 border-b border-blue-300 hover:bg-blue-700">
-                        <th scope="row" class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
-                            {{item.departureTime | date: 'HH:mm'}}
-                        </th>
-                        <td class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
-                            {{item.arrivalTime | date: 'HH:mm'}}
-                        </td>
-                        <td class="px-6 py-4 ">
-                            {{item.routeName}}
-                        </td>
-                        <td class="px-6 py-4">
-                            <div class="flex items-center">
-                                <div class="text-sm font-medium">Brand: {{ item.busBrand }}</div>
-                                <div class="mx-2 text-sm font-medium"> Rating: {{ item.busRating }} / 5.0</div>
-                            </div>
-                            <div class="text-sm font-medium">Company: {{ item.companyName }}</div>
-                        </td>
-                        <td class="px-6 py-4">
-                            {{item.tripStatus}}
-                        </td>
-                        <td class="px-9 py-4">
-                            {{item.freeSeatsCount}}
-                        </td>
-                        <td *hasAnyRole="['Admin', 'Passenger']" class="px-6 py-4">
-                            <button class="ml-4" (click)="buyTicket()" matTooltip="Buy ticket for this trip">
-                                <mat-icon fontIcon="receipt"></mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    }
+                    <ng-container *ngIf="trips.length > 0; else noTrips">
+                        <!-- Loop through each trip -->
+                        @for (item of trips; track $index)
+                        {
+                        <tr class="bg-blue-500 border-b border-blue-300 hover:bg-blue-700">
+                            <th scope="row"
+                                class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
+                                {{item.departureTime | date: 'HH:mm'}}
+                            </th>
+                            <td class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
+                                {{item.arrivalTime | date: 'HH:mm'}}
+                            </td>
+                            <td class="px-6 py-4 ">
+                                {{item.routeName}}
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center">
+                                    <div class="text-sm font-medium">Brand: {{ item.busBrand }}</div>
+                                    <div class="mx-2 text-sm font-medium"> Rating: {{ item.busRating }} / 5.0</div>
+                                </div>
+                                <div class="text-sm font-medium">Company: {{ item.companyName }}</div>
+                            </td>
+                            <td class="px-6 py-4">
+                                {{item.tripStatus}}
+                            </td>
+                            <td class="px-9 py-4">
+                                {{item.freeSeatsCount}} / {{item.capacity}}
+                            </td>
+
+                            <td *hasAnyRole="['Admin', 'Passenger']" class="px-6 py-4">
+                                @if (item.freeSeatsCount > 0 && item.tripStatus != 'Completed' 
+                                    && item.tripStatus != 'Canceled') {
+                                <button class="ml-4" (click)="buyTicket(item.tripId)"
+                                    matTooltip="Buy ticket for this trip">
+                                    <mat-icon fontIcon="receipt"></mat-icon>
+                                </button>
+                                }
+                            </td>
+                        </tr>
+                        }
+                    </ng-container>
                 </ng-container>
                 <ng-template #loading>
                     <tr>
                         <td colspan="12">
                             <div class="flex justify-center">
-                                <mat-spinner/>
+                                <mat-spinner />
                             </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template #noTrips>
+                    <tr>
+                        <td colspan="12">
+                            <div class="flex justify-center font-semibold">No elements found for this time</div>
                         </td>
                     </tr>
                 </ng-template>

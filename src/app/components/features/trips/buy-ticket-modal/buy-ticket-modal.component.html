@@ -1,0 +1,67 @@
+<h1 mat-dialog-title class="text-center">Buy ticket</h1>
+<form [formGroup]="customForm" (ngSubmit)="onSubmit()">
+    <div mat-dialog-content>
+        <div class="mb-3">
+            <mat-form-field>
+                <mat-label>Passenger</mat-label>
+                <mat-select formControlName="passengerId" [(value)]="choosenPassengerId" required="true">
+                    @for (p of passengersToChoose; track p) {
+                    <mat-option [value]="p.passengerId">{{p.fullName}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="mb-3">
+            <mat-form-field>
+                <mat-label>Seat</mat-label>
+                <mat-select formControlName="seatId" [(value)]="choosenSeatId" required="true">
+                    @for (s of seats; track s) {
+                    <mat-option [value]="s.seatId">{{s.seatNumber}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="mb-3">
+            <mat-form-field>
+                <mat-label>Start stop</mat-label>
+                <mat-select formControlName="startStopId" [(value)]="choosenStartStopId" (selectionChange)="onStartStopSelectionChange($event.value)"
+                    required="true">
+                    @for (s of startStops; track s) {
+                    <mat-option [value]="s.stopId">{{s.name}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="mb-3">
+            <mat-form-field>
+                <mat-label>End stop</mat-label>
+                <mat-select formControlName="endStopId" [disabled]="choosenStartStopId != 0" (selectionChange)="onEndStopSelectionChange()"
+                    [(value)]="choosenEndStopId" required="true">
+                    @for (s of endStops; track s) {
+                    <mat-option [value]="s.stopId">{{s.name}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="mb-3">
+            <mat-form-field>
+                <mat-label>Payment type</mat-label>
+                <mat-select formControlName="paymentType" [(value)]="choosenPaymentType" required="true">
+                    @for (option of paymentTypeOptions; track option) {
+                        <mat-option [value]="option.value">{{option.viewValue}}</mat-option>
+                        }
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="mb-3">
+            <mat-form-field>
+                <mat-label>Ticket price</mat-label>
+                <input matInput [value]="ticketPrice" disabled>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="items-center justify-center" mat-dialog-actions>
+        <button mat-raised-button [disabled]="!customForm.valid" color="primary" type="submit">Buy</button>
+        <button mat-flat-button (click)="onExit()">Cancel</button>
+    </div>
+</form>

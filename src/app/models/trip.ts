@@ -10,7 +10,8 @@ export class Trip {
         public companyName: string,
         public busRating: number,
         public tripStatus: string,
-        public freeSeatsCount: number
+        public freeSeatsCount: number,
+        public capacity: number
     ) { }
 }
 
@@ -19,5 +20,12 @@ export class GetAllTripsRequest {
   constructor(
     public searchedRoute: string,
     public searchedStatus: string,
+    public isLive: boolean,
     public pagination: Pagination) {}
+}
+
+// responses
+export interface SeatsForTripInfo {
+    seatId: number,
+    seatNumber: number
 }

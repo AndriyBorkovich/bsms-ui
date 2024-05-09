@@ -34,7 +34,7 @@
 
             <!-- Filter to show only buses which have at least one bought ticket for its trips -->
             <div class="ml-5 relative mt-1 flex flex-row">
-                <span class="text-white text-lg mt-1">Show with tickets: </span>
+                <span class="text-white text-lg mt-1" matTooltip="Show only buses which have at least one bought ticket for its trips">Show with tickets: </span>
                 <mat-checkbox [checked]="haveBoughtTickets" (change)="onTicketsFlagChange()"/>
             </div>
 
