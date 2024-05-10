@@ -19,6 +19,11 @@ export class CompanyShortInfo
     {}
 }
 
+export interface CompanyRevenue {
+    companyName: string;
+    revenue: number
+}
+
 // requests
 export class GetAllCompaniesRequest {
     constructor(

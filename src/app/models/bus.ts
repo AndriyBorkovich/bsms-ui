@@ -1,3 +1,4 @@
+import { StringUnitLength } from 'luxon';
 import { DayOfWeek, Direction } from './enums';
 import { Pagination } from './pagination';
 
@@ -11,6 +12,11 @@ export class Bus {
     public companyName: string,
     public rating: number
   ) {}
+}
+
+export interface BusDistance {
+  busNumber: string;
+  distanceTravelled: number;
 }
 
 // requests

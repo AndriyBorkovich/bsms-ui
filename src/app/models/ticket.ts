@@ -18,3 +18,8 @@ export class GetTicketPriceRequest {
 export interface GetTicketPriceResponse {
     price: number;
 }
+
+export interface TicketDistribution {
+    typeName: string;
+    count: number;
+}

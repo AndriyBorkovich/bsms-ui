@@ -3,5 +3,15 @@ export class RouteShortInfo {
 }
 
 export class RouteStopsInfo {
-    constructor(public stopId: number, public name: string) {}
+  constructor(public stopId: number, public name: string) {}
+}
+
+export interface RouteWithBusRating {
+  routeName: string;
+  averageBusRating: number;
+}
+
+export interface RouteRevenue {
+  routeName: string;
+  totalRevenue: number;
 }

@@ -1,0 +1,66 @@
+<div class="flex items-center justify-center border-b border-gray-200 dark:border-gray-700">
+    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-styled-tab"
+        data-tabs-toggle="#default-styled-tab-content"
+        data-tabs-active-classes="text-blue-600 hover:text-blue-800 dark:text-purple-500 dark:hover:text-purple-500 border-blue-500 dark:border-purple-500"
+        data-tabs-inactive-classes="dark:border-transparent text-white hover:text-blue-300 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300"
+        role="tablist">
+        <li class="me-1" role="presentation">
+            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-styled-tab"
+                data-tabs-target="#payment-dist" type="button" role="tab" aria-controls="profile"
+                aria-selected="false">Payment types distribution</button>
+        </li>
+        <li class="me-2" role="presentation">
+            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="dashboard-styled-tab"
+                data-tabs-target="#companies-revenue" type="button" role="tab" aria-controls="dashboard"
+                aria-selected="false">Top companies by revenue</button>
+        </li>
+        <li class="me-2" role="presentation">
+            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="settings-styled-tab"
+                data-tabs-target="#routes-ratings" type="button" role="tab" aria-controls="settings"
+                aria-selected="false">Top routes by bus ratings</button>
+        </li>
+        <li class="me-2" role="presentation">
+            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="settings-styled-tab"
+                data-tabs-target="#routes-revenue" type="button" role="tab" aria-controls="settings"
+                aria-selected="false">Top routes by revenue</button>
+        </li>
+        <li class="me-2" role="presentation">
+            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="settings-styled-tab"
+                data-tabs-target="#buses-distances" type="button" role="tab" aria-controls="settings"
+                aria-selected="false">Top buses by travelled distance</button>
+        </li>
+
+    </ul>
+</div>
+<div id="default-styled-tab-content">
+    <div class="hidden p-4 rounded-lg bg-blue-400 dark:bg-gray-800" id="payment-dist" role="tabpanel"
+        aria-labelledby="profile-tab">
+        <div class="flex flex-col items-center justify-center">
+            <app-payment-types-pie-chart />
+        </div>
+    </div>
+    <div class="hidden p-4 rounded-lg bg-blue-400 dark:bg-gray-800" id="companies-revenue" role="tabpanel"
+        aria-labelledby="dashboard-tab">
+        <div class="flex flex-col items-center justify-center">
+            <app-companies-revenue-bar-chart />
+        </div>
+    </div>
+    <div class="hidden p-4 rounded-lg bg-blue-400 dark:bg-gray-800" id="routes-ratings" role="tabpanel"
+        aria-labelledby="settings-tab">
+        <div class="flex flex-col items-center justify-center">
+            <app-routes-ratings-bar-chart />
+        </div>
+    </div>
+    <div class="hidden p-4 rounded-lg bg-blue-400 dark:bg-gray-800" id="routes-revenue" role="tabpanel"
+        aria-labelledby="settings-tab">
+        <div class="flex flex-col items-center justify-center">
+            <app-routes-revenue-bar-chart />
+        </div>
+    </div>
+    <div class="hidden p-4 rounded-lg bg-blue-400 dark:bg-gray-800" id="buses-distances" role="tabpanel"
+        aria-labelledby="settings-tab">
+        <div class="flex flex-col items-center justify-center">
+            <app-buses-distances-bar-chart />
+        </div>
+    </div>
+</div>

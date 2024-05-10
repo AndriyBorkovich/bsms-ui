@@ -12,6 +12,7 @@ import { PassengersViewComponent } from './components/features/passengers/passen
 import { DriversViewComponent } from './components/features/drivers/drivers-view/drivers-view.component';
 import { CompaniesViewComponent } from './components/features/companies/companies-view/companies-view.component';
 import { TripsViewComponent } from './components/features/trips/trips-view/trips-view.component';
+import { StatsViewComponent } from './components/features/statistics/stats-view/stats-view.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -52,6 +53,12 @@ export const routes: Routes = [
     component: TripsViewComponent,
     canActivate: [RoleGuard],
     data: { expectedRoles: ['Admin', 'Passenger', 'Driver']},
+  },
+  {
+    path: 'stats',
+    component: StatsViewComponent,
+    canActivate: [RoleGuard],
+    data: { expectedRoles: ['Admin']},
   },
   { path: 'server-error', component: ServerErrorComponent },
   { path: 'no-acess', component: UnauthorizedComponent },
