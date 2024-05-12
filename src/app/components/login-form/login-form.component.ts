@@ -7,6 +7,7 @@ import {AuthenticateResponse, LoginRequest, RegistrationRequest} from "../../mod
 import {HttpErrorResponse} from "@angular/common/http";
 import {NgIf} from "@angular/common";
 import { DisableButtonOnSubmitDirective } from 'src/app/directives/n-submit.directive';
+import { ViewCountService } from 'src/app/services/view-count.service';
 
 @Component({
   selector: 'app-login-form',

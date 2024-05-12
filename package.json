@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^17.3.4",
     "@angular/router": "^17.3.4",
     "@auth0/angular-jwt": "^5.2.0",
+    "@microsoft/signalr": "^8.0.0",
     "@swimlane/ngx-charts": "^20.5.0",
     "flowbite": "^2.3.0",
     "jwt-decode": "^4.0.0",

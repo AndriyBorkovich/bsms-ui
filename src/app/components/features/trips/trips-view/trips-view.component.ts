@@ -52,7 +52,7 @@ export class TripsViewComponent implements OnInit, OnDestroy {
     'Completed',
     'Cancelled',
   ];
-  refreshTripsJob: Subscription;
+  //refreshTripsJob: Subscription;
   currentDate: Date = new Date();
   showLive: boolean = true;
 
@@ -65,13 +65,13 @@ export class TripsViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getAllTrips();
-    this.refreshTripsJob = interval(40000).subscribe(() => {
-      this.getAllTrips();
-    });
+    // this.refreshTripsJob = interval(40000).subscribe(() => {
+      // this.getAllTrips();
+    // });
   }
 
   ngOnDestroy(): void {
-    this.refreshTripsJob.unsubscribe();
+    // this.refreshTripsJob.unsubscribe();
   }
 
   pageChanged(event: PageEvent) {

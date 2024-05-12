@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { LoginRequest, RegistrationRequest } from '../models/account.dtos';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { jwtDecode } from 'jwt-decode';
+import { ViewCountService } from './view-count.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +16,13 @@ export class AccountService {
 
   private currentUserSource = new BehaviorSubject<User | null>(null);
 
-  currentUser$ : Observable<User> = this.currentUserSource.asObservable();
+  currentUser$: Observable<User> = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
+  constructor(
+    private http: HttpClient,
+    private viewCountService: ViewCountService,
+    private jwtHelper: JwtHelperService
+  ) {}
 
   logIn(model: LoginRequest) {
     return this.http.post<User>(`${this.baseUrl}/Login`, model).pipe(
@@ -25,6 +30,7 @@ export class AccountService {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSource.next(user);
+          this.viewCountService.notifyWatching();
         }
 
         return user;
@@ -34,6 +40,8 @@ export class AccountService {
 
   isLoggedIn(): boolean {
     let currentUser: User | null = this.getCurrentUser();
+
+    this.viewCountService.checkCurrent();
 
     return (
       currentUser !== null && !this.jwtHelper.isTokenExpired(currentUser.token)
@@ -46,6 +54,7 @@ export class AccountService {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSource.next(user);
+          this.viewCountService.notifyWatching();
         }
 
         return user;
@@ -56,6 +65,7 @@ export class AccountService {
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+    this.viewCountService.notifyUnwatching();
   }
 
   getCurrentUser() {
@@ -65,15 +75,15 @@ export class AccountService {
 
   getCurrentRole(): string | null {
     const curentUser = this.getCurrentUser();
-    if(curentUser == null) {
+    if (curentUser == null) {
       return null;
     }
 
     const tokenPayload: any = jwtDecode(curentUser.token);
-    if(tokenPayload == null) {
+    if (tokenPayload == null) {
       return null;
     }
-    
+
     return tokenPayload.Role;
   }
 }
